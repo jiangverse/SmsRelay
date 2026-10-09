@@ -20,6 +20,10 @@ class SmsHookEntry : IXposedHookLoadPackage {
                 override fun afterHookedMethod(param: MethodHookParam) {
                     val context = param.args[0] as android.content.Context
                     runCatching { InboundSmsHook.install(hookClassLoader) }
+                        .onFailure { error ->
+                            XposedBridge.log("SmsRelay: SMS hook installation failed")
+                            XposedBridge.log(error)
+                        }
                     AppBridge.send(context, RelayContract.STATUS, Bundle().apply { putString(RelayContract.DETAIL, "Hook loaded") })
                 }
             })
@@ -28,6 +32,7 @@ class SmsHookEntry : IXposedHookLoadPackage {
         } catch (error: Throwable) {
             // 禁止将模块异常传播到电话服务进程。
             XposedBridge.log("SmsRelay: hook installation failed (${error.javaClass.simpleName})")
+            XposedBridge.log(error)
         }
     }
 }

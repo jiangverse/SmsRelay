@@ -24,3 +24,6 @@
 # Compose 默认工厂按 Application 构造参数创建 ViewModel。
 -keep class io.github.jiangverse.smsrelay.ui.RelayViewModel { public <init>(android.app.Application); }
 -keepattributes Signature,InnerClasses,EnclosingMethod,LineNumberTable
+# LSPosed 在电话进程加载模块，暂禁用类合并、内联等字节码优化。
+# 仍执行未使用代码裁剪、名称混淆和资源压缩，不等同于关闭精简。
+-dontoptimize

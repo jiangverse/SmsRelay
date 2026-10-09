@@ -24,6 +24,8 @@ object AppBridge {
                     }
                 } catch (error: Throwable) {
                     XposedBridge.log("SmsRelay: app bridge unavailable (${error.javaClass.simpleName})")
+                    // 仅记录异常栈，不记录短信、发送者或推送密钥。
+                    XposedBridge.log(error)
                 }
             }
         } catch (_: Throwable) {

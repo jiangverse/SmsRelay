@@ -23,6 +23,7 @@ android {
 
     buildTypes {
         release {
+            // 保留发布包精简；Hook 入口和反射依赖由 hook/consumer-rules.pro 保留。
             isMinifyEnabled = true
             isShrinkResources = true
             proguardFiles(
